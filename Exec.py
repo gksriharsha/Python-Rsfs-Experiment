@@ -41,7 +41,7 @@ States = {
         'fn' : ['sqrt','10log'],
         'top' : list(range(1,7)),
         'Threshold' : list(numpy.arange(500,2000,200)),
-	'cutoff': [0.95,0.99,0.997]
+	    'cutoff': [0.95,0.99,0.997]
     }
 }
 
@@ -89,6 +89,5 @@ while True:
         with open('Performance_RSFS.csv', 'a', newline='') as myfile:
             wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
             wr.writerow(line)
-            wr.writerow("\n")
         print('Combination  :',j)
         j = j+1
