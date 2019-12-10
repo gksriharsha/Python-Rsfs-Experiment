@@ -3,14 +3,9 @@ import numpy
 from sklearn.model_selection import train_test_split
 import random
 import csv
+from Dataset_Loader import train,test,train_labels,test_labels,getdataset
 
-Data = numpy.loadtxt(open(str('Isolet.csv'), "rb"), delimiter=",", skiprows=1);
-labels = Data[:, -1]
-Data = Data[:,:-1]
-train, test, train_labels, test_labels = train_test_split(
-            Data, labels, test_size=0.33, random_state=42, stratify=labels)
-print((train_labels == train[:,-1]))
-
+train,test,train_labels,test_labels = getdataset()
 Feature_train = train
 Feature_test = test
 label_train = train_labels
@@ -35,18 +30,18 @@ Parameters = {
 States = {
     'RSFS':{
         'stored': [0,1],
-        'K' : list(numpy.arange(3,11,2)),
+        'K' : 3,
         'Top2' : [0,1],
-        'Dummy feats' : list(numpy.arange(100,numpy.size(Data,1),100)),
+        'Dummy feats' : list(numpy.arange(100,numpy.size(train,1),100)),
         'fn' : ['sqrt','10log'],
         'top' : list(range(1,7)),
-        'Threshold' : list(numpy.arange(500,2000,200)),
-	    'cutoff': [0.95,0.99,0.997]
+        'Threshold' : list(numpy.arange(500,2400,100)),
+	    'cutoff': [0.95,0.96,0.97,0.98,0.99,0.997]
     }
 }
 
 Combinations = numpy.array([])
-limit = [len(States['RSFS']['Dummy feats']), len(States['RSFS']['K']), len(States['RSFS']['Threshold']) , len(States['RSFS']['fn']),
+limit = [len(States['RSFS']['Dummy feats']),len(States['RSFS']['Threshold']) , len(States['RSFS']['fn']),
                        len(States['RSFS']['cutoff'])]
 n= numpy.prod(limit)
 for i in list(numpy.arange(1, len(limit) + 1)):
