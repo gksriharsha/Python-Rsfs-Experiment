@@ -54,22 +54,22 @@ def RSFS(Feature_train, Feature_test, label_train, label_test, Parameters):
                 feature_indices = feature_indices(feature_indices != stored(i))
 
         class_hypos = clf.Classifier_II(Feature_train[:, numpy.resize(feature_indices,(numpy.size(feature_indices),))], Feature_test[:,numpy.resize(feature_indices,(numpy.size(feature_indices),))], label_train,
-                                    Parameters);
+                                    Parameters)
 
-        correct = numpy.zeros(N_classes);
-        wrong = numpy.zeros(N_classes);
+        correct = numpy.zeros(N_classes)
+        wrong = numpy.zeros(N_classes)
 
         for j in list(numpy.arange(0, numpy.size(label_test))):
             if (label_test[j] == class_hypos[j]):
-                correct[label_test[j] - 1] = correct[label_test[j] - 1] + 1;
+                correct[label_test[j] - 1] = correct[label_test[j] - 1] + 1
             else:
-                wrong[label_test[j] - 1] = wrong[label_test[j] - 1] + 1;
+                wrong[label_test[j] - 1] = wrong[label_test[j] - 1] + 1
 
-        totcorrect = totcorrect + correct;
-        totwrong = totwrong + wrong;
+        totcorrect = totcorrect + correct
+        totwrong = totwrong + wrong
 
-        performance_criterion = numpy.mean(numpy.array(correct) * 100 / (numpy.array(correct) + numpy.array(wrong)));
-        expected_criterion_value = numpy.mean(numpy.array(totcorrect) * 100 / (numpy.array(totcorrect) + numpy.array(totwrong)));
+        performance_criterion = numpy.mean(numpy.array(correct) * 100 / (numpy.array(correct) + numpy.array(wrong)))
+        expected_criterion_value = numpy.mean(numpy.array(totcorrect) * 100 / (numpy.array(totcorrect) + numpy.array(totwrong)))
 
         target = performance_criterion - expected_criterion_value
         pos = feature_indices
@@ -130,14 +130,14 @@ def Run_Class(Feature_train, Feature_test, label_train, label_test, Parameters):
     t2 = time.time()
     Orig_time = t2-t1
 
-    hypos_RSFS = clf.Classifier_I(Feature_train[:,numpy.resize(F_RSFS,(numpy.size(F_RSFS),))], Feature_test[:,numpy.resize(F_RSFS,(numpy.size(F_RSFS),))], label_train, Parameters);
-    RSFS_Accuracy = sum(hypos_RSFS == label_test) / numpy.size(label_test) * 100;
-    print('RSFS feature set (',numpy.size(F_RSFS),'):', RSFS_Accuracy,' correct');
+    hypos_RSFS = clf.Classifier_I(Feature_train[:,numpy.resize(F_RSFS,(numpy.size(F_RSFS),))], Feature_test[:,numpy.resize(F_RSFS,(numpy.size(F_RSFS),))], label_train, Parameters)
+    RSFS_Accuracy = sum(hypos_RSFS == label_test) / numpy.size(label_test) * 100
+    print('RSFS feature set (',numpy.size(F_RSFS),'):', RSFS_Accuracy,' correct')
 
     if (Parameters['RSFS']['stored'] == 1):
-        hypos_stored = clf.Classifier_I(Feature_train[:,numpy.resize(stored,(numpy.size(stored),))], Feature_test[:numpy.resize(stored,(numpy.size(stored),))], Label_train, Parameters);
-        Stored_Accuracy = sum(hypos_stored == label_test) / numpy.size(label_test) * 100;
-        print('RSFS feature set using new logic (',len(stored),' features):', Stored_Accuracy, 'correct.' );
+        hypos_stored = clf.Classifier_I(Feature_train[:,numpy.resize(stored,(numpy.size(stored),))], Feature_test[:numpy.resize(stored,(numpy.size(stored),))], label_train, Parameters)
+        Stored_Accuracy = sum(hypos_stored == label_test) / numpy.size(label_test) * 100
+        print('RSFS feature set using new logic (',len(stored),' features):', Stored_Accuracy, 'correct.' )
         Result ={
             'Stored':{
                 'Acc' : Stored_Accuracy,
